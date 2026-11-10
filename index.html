@@ -14,6 +14,17 @@ wrongly, or the total on a claim is wrong, you cannot rely on the result, howeve
 <p>We still give partial credit on purpose, because it shows progress. A newer version of a harness may still fail a task but fail it more narrowly,
 and the partial score shows it is heading in the right direction. So read the <b>average score</b> as <i>how close</i> the work was, and the number of
 <b>fully correct runs</b> as <i>how often you could rely on it</i>.</p></div>
+<div class="note"><h3>What are "real tokens"?</h3>
+<p>A <b>token</b> is a small piece of text, roughly three quarters of a word. Each time the model takes a step, the harness sends it the whole
+conversation so far, so the same text is read again and again. The server remembers text it has already processed and reuses it (a <i>cache</i>),
+which costs almost no work.</p>
+<p><b>Real tokens count only the work that was not reused: the new text the model had to read, plus everything it wrote, including its thinking.</b>
+Counting the reused text as well would bury the real differences, because long conversations re-read the same text many times. Real tokens follow the
+actual effort (and the waiting time) much more closely.</p>
+<p><b>Example:</b> one Pi run (T14 Root cause from logs, round 1) took 10 steps. Over those steps the model was sent
+213K tokens in total, but 142K of them were reused from the cache. So it had to read 71K new
+tokens and it wrote 9K. Real tokens = 71K + 9K = <b>80K</b>.</p></div>
+
 <p>See exactly what each task asked on the <a href="tests.html">Tests page</a>, and how everything was run (model recipe, harness versions) on the <a href="setup.html">Setup page</a>.</p>
 <h2>The results</h2>
 <p>The model is thinking-capable, and how hard it thinks depends on a setting called <b>reasoning effort</b>. Two harnesses ask for <i>medium</i>.

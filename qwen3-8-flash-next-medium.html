@@ -24,9 +24,10 @@ the dark part is its <i>thinking</i>, the pale part is the answer and any comman
 plus all the output. The two panels use different scales.</p>
 <img src="assets/qwen3-8-flash-next-medium-tokens.svg" alt="Input and output tokens for each test and harness">
 <h2 id="rounds">Did it do the same each round?</h2>
-<p class="how">Each numbered dot is one round (1, 2, 3) of all 15 tests. A short bar means the harness did about the same every round;
-a long bar means its results moved around.</p>
-<img src="assets/qwen3-8-flash-next-medium-rounds.svg" alt="Average score and tokens for each round">
+<p class="how">Two separate graphs. Each numbered dot is one round (1, 2, 3) of the tests; a short bar means the harness did about the same every round,
+a long bar means its results moved around. For Hermes the rounds are compared on the 12 tests that have a counted run in every round (T01, T02, T15 left out of this comparison).</p>
+<div class="figcard"><h3>Score in each round</h3><img src="assets/qwen3-8-flash-next-medium-rounds-score.svg" alt="Average score in each round"></div>
+<div class="figcard"><h3>Real tokens in each round</h3><img src="assets/qwen3-8-flash-next-medium-rounds-tokens.svg" alt="Average real tokens per test in each round"></div>
 <h2 id="barcode">Which tests went wrong, and when?</h2>
 <p class="how">One cell per run: 15 tests across, three rounds down. Dark blue means fully correct (100%). The colour shifts through lighter blue and
 yellow to red as the score drops, and only a score of 0% is fully red. The number in a cell is its score whenever it was below 100%. A test that went

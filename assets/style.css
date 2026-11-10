@@ -43,3 +43,6 @@ table thead tr:has(th:empty) { display:none; }
 .note h3 { margin:.7em 0 .2em; }
 
 .muted { color:var(--muted); font-weight:400; font-size:.85em; }
+.figcard { background:#fff; border:2px solid #b8b8b2; border-radius:10px; padding:4px 20px 12px; margin:26px 0; box-shadow:0 1px 3px rgba(0,0,0,.05); }
+.figcard h3 { margin:.6em 0 .1em; }
+.figcard img { margin:4px 0 0; }

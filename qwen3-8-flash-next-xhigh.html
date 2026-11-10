@@ -3,7 +3,7 @@
 <p class="lead">DeepSeek Harness and OpenCode were each given the same 15 tasks, three times each, with the model asked for <b>xhigh (the server's default)</b> reasoning effort.
 Every graph below shows every run, not averages hiding the differences between rounds.</p>
 
-<p class="toc">On this page: <a href="#headline">Headline</a> · <a href="#correct">Correctness</a> · <a href="#cost">Cost</a> · <a href="#rounds">Round by round</a> ·
+<p class="toc">On this page: <a href="#headline">Headline</a> · <a href="#correct">Correctness</a> · <a href="#cost">Cost</a> · <a href="#tokens">Tokens</a> · <a href="#rounds">Round by round</a> ·
 <a href="#barcode">Test by test</a> · <a href="#rotate">Rotate it</a></p>
 <h2 id="headline">Headline</h2><div class="cards"><div class="card" style="border-top:5px solid #009E73"><h3 style="color:#009E73">DeepSeek Harness</h3><div class="big">99%</div><div class="lab">average score</div><div class="row"><b>146K</b> real tokens per test</div><div class="row"><b>9.5</b> minutes per test</div><div class="row"><b>38</b> of 45 counted runs fully correct</div></div><div class="card" style="border-top:5px solid #CC79A7"><h3 style="color:#CC79A7">OpenCode</h3><div class="big">98%</div><div class="lab">average score</div><div class="row"><b>124K</b> real tokens per test</div><div class="row"><b>11.6</b> minutes per test</div><div class="row"><b>40</b> of 45 counted runs fully correct</div></div></div>
 <p class="how">The average score includes partial credit, so it shows how close the work was, not how often it could be relied on: use "runs fully correct" for that. <a href="index.html">More on the Summary page.</a> <b>Real tokens</b> are the new text the model read plus everything it wrote; <a href="index.html">what that means</a>.</p>
@@ -17,6 +17,12 @@ harnesses so the gap is easy to see. Further left means fewer real tokens, so ch
 takes the same distance as 100K to 200K. That keeps cheap and expensive tests readable on one graph, but a gap on the right is a bigger
 difference in tokens than the same gap on the left.</p>
 <img src="assets/qwen3-8-flash-next-xhigh-cost.svg" alt="Real tokens per test for each harness">
+<h2 id="tokens">Where do the tokens go?</h2>
+<p class="how">For every test and harness, the average over its counted runs. <b>Input</b> is everything the model was sent: the dark part is new text it
+had to read (the <i>real</i> input), the pale part was reused from the cache; the whole bar is the <i>total</i> input. <b>Output</b> is what the model wrote:
+the dark part is its <i>thinking</i>, the pale part is the answer and any commands it wrote. Real tokens, used elsewhere in this report, are the dark input
+plus all the output. The two panels use different scales.</p>
+<img src="assets/qwen3-8-flash-next-xhigh-tokens.svg" alt="Input and output tokens for each test and harness">
 <h2 id="rounds">Did it do the same each round?</h2>
 <p class="how">Each numbered dot is one round (1, 2, 3) of all 15 tests. A short bar means the harness did about the same every round;
 a long bar means its results moved around.</p>

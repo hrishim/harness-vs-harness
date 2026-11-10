@@ -1,0 +1,137 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Test setup</title><link rel="stylesheet" href="assets/style.css"></head><body><nav><span class="brand">harness-vs-harness</span><a href="index.html">Summary</a><a href="qwen3-8-flash-next-medium.html">Medium effort</a><a href="qwen3-8-flash-next-xhigh.html">Xhigh effort</a><a href="tests.html">Tests</a><a href="setup.html" class=on>Setup</a><a href="data.html">Data</a></nav><main><h1 id="top">Test setup</h1><p>Everything below is what the runs in this report actually used. Dates are 8 to 10 November 2026.</p>
+<h3>Model and server</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model</td>
+<td>Alibaba <strong>Qwen3.8-Flash-Next</strong>, NVIDIA's <strong>NVFP4</strong> quantisation (<a href="https://huggingface.co/nvidia/Qwen3.8-Flash-Next-NVFP4"><code>nvidia/Qwen3.8-Flash-Next-NVFP4</code></a> on Hugging Face; ModelOpt mixed precision: NVFP4 weights, FP8 for some layers), snapshot <code>fc694b54fb0174e0913e6adf86691ef85a4ead47</code>. Served as <code>qwen3.8-flash-nvfp4</code></td>
+</tr>
+<tr>
+<td>Machine</td>
+<td>NVIDIA <strong>DGX Spark</strong> (GB10), driver 580.178.04, Linux 7.0.0-1019-nvidia</td>
+</tr>
+<tr>
+<td>Recipe</td>
+<td><strong>Setup D</strong> (our own speed trial): the published <code>salient-data/qwen38-next-dgx</code> Docker image, pinned by digest <code>sha256:3d67df7b7b7d25a5da64f62c0f87f6109062584261fe77157f6d37de178d10b2</code>, launched as the recipe repository <a href="https://github.com/salient-data/qwen38-next-dgx-recipe"><code>salient-data/qwen38-next-dgx-recipe</code></a> (version <code>f309019</code>, 15 Oct 2026) prints it, with our household settings (model name, tool parser, 8 requests at once, thinking on)</td>
+</tr>
+<tr>
+<td>Engine</td>
+<td><strong>vLLM 0.32.0rc1.dev100+g77154ca61</strong> (nightly build 77154ca6), PyTorch 2.13.0+cu130, transformers 5.19.0</td>
+</tr>
+<tr>
+<td>Front end</td>
+<td><strong>llama-swap v255</strong> (7761aa1) on port 4000, concurrency limit 8. It <strong>removes <code>max_tokens</code> from every request</strong>, so no harness has an output cap</td>
+</tr>
+<tr>
+<td>Context window</td>
+<td>262,144 tokens</td>
+</tr>
+<tr>
+<td>One user at a time</td>
+<td>The runs were executed one after another; the server never served two runs at once</td>
+</tr>
+</tbody>
+</table>
+<p>Launch command (the <code>vllm serve</code> arguments):</p>
+<pre><code>vllm serve /hfrepo/snapshots/fc694b54fb0174e0913e6adf86691ef85a4ead47 --host 127.0.0.1 --port 10001
+  --served-model-name qwen3.8-flash-nvfp4 --trust-remote-code --quantization modelopt --tensor-parallel-size 1
+  --max-model-len 262144 --max-num-seqs 8 --gpu-memory-utilization 0.80 --max-num-batched-tokens 4096
+  --engram-config {&quot;host_file_gather&quot;: true} --compilation-config {&quot;mode&quot;: 0, &quot;cudagraph_mode&quot;: &quot;FULL_DECODE_ONLY&quot;}
+  --no-enable-flashinfer-autotune --reasoning-parser qwen3 --enable-auto-tool-choice --tool-call-parser qwen3_coder
+  --default-chat-template-kwargs {&quot;enable_thinking&quot;: true} --kv-cache-dtype fp8_e4m3 --use-replayssm
+  --kv-cache-dtype-skip-layers 48 --mamba-ssm-cache-dtype bfloat16 --enable-prefix-caching --enable-prompt-tokens-details
+  --speculative-config {&quot;method&quot;: &quot;mtp&quot;, &quot;num_speculative_tokens&quot;: 6, &quot;draft_confidence_threshold&quot;: 0.7,
+                        &quot;draft_confidence_fallback_depth&quot;: 3, &quot;draft_token_map&quot;: &quot;...&quot;, ...}
+</code></pre>
+<p>Environment: <code>VLLM_USE_V2_MODEL_RUNNER=1</code>, <code>QWEN38_FP8_DENSE=gdn,attn,shared,mtp,lm_head</code>, <code>QWEN4EXP_DRAFT_VOCAB=0</code>,
+<code>VLLM_PLE_FILE_GATHER_WORKERS=64</code>, <code>PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True</code>, <code>HF_HUB_OFFLINE=1</code>, <code>TRANSFORMERS_OFFLINE=1</code>.</p>
+<p><strong>Defaults when a harness sends nothing</strong> (from the model's chat template and config): thinking is <strong>on</strong>; reasoning effort is <strong><code>xhigh</code></strong>
+(the template accepts <code>xhigh</code>, <code>medium</code> or <code>low</code>); sampling is temperature 1.0, top-k 20, top-p 0.95. None of the four harnesses sent its own sampling settings.</p>
+<h3>Reasoning effort per harness</h3>
+<p>Captured from the exact request each harness sends (10 Nov 2026), not from its documentation:</p>
+<table>
+<thead>
+<tr>
+<th>Harness</th>
+<th>Sends</th>
+<th>Effort the model ran at</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pi</td>
+<td><code>reasoning_effort: "medium"</code></td>
+<td><strong>medium</strong></td>
+</tr>
+<tr>
+<td>Hermes</td>
+<td><code>reasoning_effort: "medium"</code> (its default)</td>
+<td><strong>medium</strong></td>
+</tr>
+<tr>
+<td>OpenCode</td>
+<td>nothing</td>
+<td><strong>xhigh</strong> (server default)</td>
+</tr>
+<tr>
+<td>DeepSeek Harness</td>
+<td>nothing</td>
+<td><strong>xhigh</strong> (server default)</td>
+</tr>
+</tbody>
+</table>
+<p>Harnesses at different effort levels think very differently (xhigh produced 35% to 90% more reasoning per turn), so the
+results above are split by effort and <strong>should only be compared within a subsection</strong>.</p>
+<h3>Harnesses</h3>
+<p>All four were installed from their public releases into Docker images and run one-shot (a single prompt, no follow-up).</p>
+<table>
+<thead>
+<tr>
+<th>Harness</th>
+<th>Version</th>
+<th>Command</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pi</td>
+<td><strong>1.5.0</strong> (<code>@earendil-works/pi-coding-agent</code>, Node 22.23.4)</td>
+<td><code>pi --mode json --provider spark --model qwen3.8-flash-nvfp4 --approve</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Hermes</td>
+<td><strong>Agent v0.23.0 (2026.9.24)</strong>, commit <code>2bd378ed1b</code> (5 Nov 2026)</td>
+<td><code>hermes --yolo -z "&lt;prompt&gt;"</code></td>
+<td>Context compression at 144,179 tokens (55% of the window); update check off</td>
+</tr>
+<tr>
+<td>DeepSeek Harness</td>
+<td><strong>0.2.2-rc.1</strong> (<code>dsh</code>, Node 24.22.2)</td>
+<td><code>dsh --profile headless "&lt;prompt&gt;"</code></td>
+<td>Permission mode <code>danger-full-access</code>; telemetry off</td>
+</tr>
+<tr>
+<td>OpenCode</td>
+<td><strong>1.19.5</strong> (<code>opencode-ai</code>, Node 22.23.4)</td>
+<td><code>opencode run --format json -m spark/qwen3.8-flash-nvfp4 "&lt;prompt&gt;"</code></td>
+<td>All tool permissions allowed, including files outside the task folder; auto-update and sharing off</td>
+</tr>
+</tbody>
+</table>
+<h3>Test environment</h3>
+<ul>
+<li><strong>15 tests, 3 rounds each</strong> per harness, so 45 runs per harness. Prompts are one-shot and written as a person would ask (see the Tests page); every input file is invented for the test.</li>
+<li><strong>A fresh Docker container per run</strong>, from a shared base image (Ubuntu 24.04.5, Python 3.12.3, Node 22.23.4, GnuCash 5.5 with the SQLite backend, Poppler, pypdf, PyMuPDF, ReportLab, piecash, icalendar, Playwright with Chromium, exiftool, Tesseract). It sees only the task's <code>input/</code> folder and the prompt. Memory limit 6 GB, time limit 45 minutes.</li>
+<li><strong>Isolated network.</strong> The container's only neighbour is a gateway container with two parts: a <strong>recording proxy</strong> to the model server (it records every request's token counts, cache hits, timings and tool calls) and a <strong>web proxy</strong> (internet allowed; private network addresses refused).</li>
+<li><strong>Scoring is rule-based, with no AI judge:</strong> file contents, PDF form fields and pixels, hidden unit tests, browser tests and fact checks. Each check is a percentage per category; the score is the average, so 100% means fully correct. Each check is tested against known-correct and known-wrong answers before it is used.</li>
+<li><strong>Efficiency</strong> comes from the recording proxy. <em>Real tokens</em> = the new text the model had to read plus everything it wrote (see the top of this page); time, turns and tool calls are counted per run.</li>
+<li><strong>Runs that had to be redone.</strong> 31 runs were set aside and run again because something went wrong with the run itself, not with the model's work: 5 Hermes runs where a model reply never arrived and Hermes was stopped, 2 Hermes runs and 1 DeepSeek run that never started, and 23 OpenCode runs where my first setup blocked access to files outside the task folder. The Data page lists them. Four Hermes runs that do count in the results also had trouble: T01 round 3 and T02 round 3 finished their work but were then stopped while waiting for the model (so their times are longer than they should be), T02 round 2 was stopped by the system after 9 minutes (score 40%), and T15 round 2 used up its whole 45 minutes and scored 0%.</li>
+</ul></main><footer>Report built 10 November 2026 from the recorded runs. <a href="#top">Back to top</a></footer></body></html>

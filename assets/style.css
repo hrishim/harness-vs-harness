@@ -46,3 +46,7 @@ table thead tr:has(th:empty) { display:none; }
 .figcard { background:#fff; border:2px solid #b8b8b2; border-radius:10px; padding:4px 20px 12px; margin:26px 0; box-shadow:0 1px 3px rgba(0,0,0,.05); }
 .figcard h3 { margin:.6em 0 .1em; }
 .figcard img { margin:4px 0 0; }
+.sc { text-align:center; font-weight:700; min-width:64px; }
+h4 { margin:1.6em 0 .2em; font-size:17px; }
+h3.sub { border-top:1px solid var(--line); padding-top:.6em; margin-top:1.8em; }
+table.glance td, table.glance th { padding:5px 9px; }

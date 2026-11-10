@@ -8,6 +8,12 @@ Different harnesses can get quite different results from the same model, so we h
 sorting an inbox, planning a trip, fixing a bug. Each task is given as one plain request with no follow-up questions. The answers are scored by rules
 and automated checks, never by another AI. <b>Score</b> is the percentage correct; <b>real tokens</b> is how much work the model did on a run
 (the new text it read plus everything it wrote, including its thinking).</p>
+<div class="note"><h3>How to read a score</h3>
+<p>A score like 99% does <b>not</b> mean the work was safe to use. Many of these tasks are all-or-nothing in real life: if an accounting file is edited
+wrongly, or the total on a claim is wrong, you cannot rely on the result, however close it was.</p>
+<p>We still give partial credit on purpose, because it shows progress. A newer version of a harness may still fail a task but fail it more narrowly,
+and the partial score shows it is heading in the right direction. So read the <b>average score</b> as <i>how close</i> the work was, and the number of
+<b>fully correct runs</b> as <i>how often you could rely on it</i>.</p></div>
 <p>See exactly what each task asked on the <a href="tests.html">Tests page</a>, and how everything was run (model recipe, harness versions) on the <a href="setup.html">Setup page</a>.</p>
 <h2>The results</h2>
 <p>The model is thinking-capable, and how hard it thinks depends on a setting called <b>reasoning effort</b>. Two harnesses ask for <i>medium</i>.

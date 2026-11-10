@@ -12,8 +12,9 @@ The number in each block is how many runs fell in it.</p>
 <img src="assets/qwen3-8-flash-next-medium-quality.svg" alt="Share of runs by how correct they were">
 <h2 id="cost">What did each test cost?</h2>
 <p class="how">One row per test. Small hollow dots are the three rounds; the large dot is the harness's average for that test, and the grey line joins the
-harnesses so the gap is easy to see. Further left means fewer real tokens, so cheaper. Equal distances along the scale mean the same ratio: 50K to 100K is the same
-distance as 100K to 200K, so gaps on the right are bigger than they look.</p>
+harnesses so the gap is easy to see. Further left means fewer real tokens, so cheaper. The scale is not evenly spaced: each step to the right <b>doubles</b> the tokens, so 50K to 100K
+takes the same distance as 100K to 200K. That keeps cheap and expensive tests readable on one graph, but a gap on the right is a bigger
+difference in tokens than the same gap on the left.</p>
 <img src="assets/qwen3-8-flash-next-medium-cost.svg" alt="Real tokens per test for each harness">
 <h2 id="rounds">Did it do the same each round?</h2>
 <p class="how">Each numbered dot is one round (1, 2, 3) of all 15 tests. A short bar means the harness did about the same every round;

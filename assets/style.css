@@ -41,3 +41,5 @@ table thead tr:has(th:empty) { display:none; }
 
 .note { background:#fff8e6; border:1px solid #f0dfa8; border-left:5px solid #e0a800; border-radius:8px; padding:4px 20px 8px; margin:22px 0; }
 .note h3 { margin:.7em 0 .2em; }
+
+.muted { color:var(--muted); font-weight:400; font-size:.85em; }

@@ -54,40 +54,39 @@
 <p><strong>Defaults when a harness sends nothing</strong> (from the model's chat template and config): thinking is <strong>on</strong>; reasoning effort is <strong><code>xhigh</code></strong>
 (the template accepts <code>xhigh</code>, <code>medium</code> or <code>low</code>); sampling is temperature 1.0, top-k 20, top-p 0.95. None of the four harnesses sent its own sampling settings.</p>
 <h3>Reasoning effort per harness</h3>
-<p>Captured from the exact request each harness sends (10 Nov 2026), not from its documentation:</p>
+<p>Captured from the exact request each harness sends (10 Nov 2026), not from its documentation. Every harness was run at both levels.</p>
 <table>
 <thead>
 <tr>
 <th>Harness</th>
-<th>Sends</th>
-<th>Effort the model ran at</th>
+<th>Medium runs</th>
+<th>Xhigh runs</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Pi</td>
-<td><code>reasoning_effort: "medium"</code></td>
-<td><strong>medium</strong></td>
+<td>Sends <code>reasoning_effort: "medium"</code> (its default)</td>
+<td>Sends <code>xhigh</code>. By default Pi sends <code>high</code> for its top levels, which this server rejects, so its thinking-level map was set to send <code>xhigh</code></td>
 </tr>
 <tr>
 <td>Hermes</td>
-<td><code>reasoning_effort: "medium"</code> (its default)</td>
-<td><strong>medium</strong></td>
+<td>Sends <code>medium</code> (its default)</td>
+<td>Sends <code>xhigh</code>, set in its configuration</td>
 </tr>
 <tr>
 <td>OpenCode</td>
-<td>nothing</td>
-<td><strong>xhigh</strong> (server default)</td>
+<td>Sends <code>medium</code>, set as a model variant</td>
+<td>Sends nothing, so the server's default, <code>xhigh</code>, applies</td>
 </tr>
 <tr>
 <td>DeepSeek Harness</td>
-<td>nothing</td>
-<td><strong>xhigh</strong> (server default)</td>
+<td>Sends <code>medium</code>, set in its provider configuration</td>
+<td>Sends nothing, so the server's default, <code>xhigh</code>, applies</td>
 </tr>
 </tbody>
 </table>
-<p>Harnesses at different effort levels think very differently (xhigh produced 35% to 90% more reasoning per turn), so the
-results above are split by effort and <strong>should only be compared within a subsection</strong>.</p>
+<p>Different effort levels make the model think very differently, so the results are split by level and each page compares harnesses only at one level.</p>
 <h3>Harnesses</h3>
 <p>All four were installed from their public releases into Docker images and run one-shot (a single prompt, no follow-up).</p>
 <table>
@@ -134,4 +133,4 @@ results above are split by effort and <strong>should only be compared within a s
 <li><strong>Scoring is rule-based, with no AI judge:</strong> file contents, PDF form fields and pixels, hidden unit tests, browser tests and fact checks. Each check is a percentage per category; the score is the average, so 100% means fully correct. Each check is tested against known-correct and known-wrong answers before it is used.</li>
 <li><strong>Efficiency</strong> comes from the recording proxy. <em>Real tokens</em> = the new text the model had to read plus everything it wrote (see the top of this page); time, turns and tool calls are counted per run.</li>
 <li><strong>Runs that had to be redone.</strong> 31 runs were set aside and run again because something went wrong with the run itself, not with the model's work: 5 Hermes runs where a model reply never arrived and Hermes was stopped, 2 Hermes runs and 1 DeepSeek run that never started, and 23 OpenCode runs where my first setup blocked access to files outside the task folder. The Data page lists them. Four Hermes runs that do count in the results also had trouble: T01 round 3 and T02 round 3 finished their work but were then stopped while waiting for the model (so their times are longer than they should be), T02 round 2 was stopped by the system after 9 minutes (score 40%), and T15 round 2 used up its whole 45 minutes and scored 0%.</li>
-</ul></main><footer>Report built 10 November 2026 from the recorded runs. <a href="#top">Back to top</a></footer></body></html>
+</ul></main><footer>Report built 11 November 2026 from the recorded runs. <a href="#top">Back to top</a></footer></body></html>

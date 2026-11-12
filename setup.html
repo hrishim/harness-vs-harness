@@ -52,7 +52,7 @@
 <p>Environment: <code>VLLM_USE_V2_MODEL_RUNNER=1</code>, <code>QWEN38_FP8_DENSE=gdn,attn,shared,mtp,lm_head</code>, <code>QWEN4EXP_DRAFT_VOCAB=0</code>,
 <code>VLLM_PLE_FILE_GATHER_WORKERS=64</code>, <code>PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True</code>, <code>HF_HUB_OFFLINE=1</code>, <code>TRANSFORMERS_OFFLINE=1</code>.</p>
 <p><strong>Defaults when a harness sends nothing</strong> (from the model's chat template and config): thinking is <strong>on</strong>; reasoning effort is <strong><code>xhigh</code></strong>
-(the template accepts <code>xhigh</code>, <code>medium</code> or <code>low</code>); sampling is temperature 1.0, top-k 20, top-p 0.95. None of the four harnesses sent its own sampling settings.</p>
+(the template accepts <code>xhigh</code>, <code>medium</code> or <code>low</code>); sampling is temperature 1.0, top-k 20, top-p 0.95. None of the five harnesses sent its own sampling settings.</p>
 <h3>Reasoning effort per harness</h3>
 <p>Captured from the exact request each harness sends (10 Nov 2026), not from its documentation. Every harness was run at both levels.</p>
 <table>
@@ -84,11 +84,16 @@
 <td>Sends <code>medium</code>, set in its provider configuration</td>
 <td>Sends nothing, so the server's default, <code>xhigh</code>, applies</td>
 </tr>
+<tr>
+<td>Claude Code</td>
+<td>Sends <code>output_config.effort: "high"</code>, which the server's configuration replaces with <code>medium</code> for the <code>:claude-medium</code> model name</td>
+<td>The same, replaced with <code>xhigh</code> for the <code>:claude-xhigh</code> model name</td>
+</tr>
 </tbody>
 </table>
 <p>Different effort levels make the model think very differently, so the results are split by level and each page compares harnesses only at one level.</p>
 <h3>Harnesses</h3>
-<p>All four were installed from their public releases into Docker images and run one-shot (a single prompt, no follow-up).</p>
+<p>All five were installed from their public releases into Docker images and run one-shot (a single prompt, no follow-up).</p>
 <table>
 <thead>
 <tr>
@@ -118,6 +123,12 @@
 <td>Permission mode <code>danger-full-access</code>; telemetry off</td>
 </tr>
 <tr>
+<td>Claude Code</td>
+<td><strong>2.1.322</strong> (<code>@anthropic-ai/claude-code</code>, Node 22.23.4)</td>
+<td><code>claude -p "&lt;prompt&gt;" --dangerously-skip-permissions --output-format stream-json</code></td>
+<td>Talks to the model in Anthropic's own message format through the same recording proxy; no translator. Automatic compaction set to trigger at 55% of the window (144,179 tokens); it was not observed to trigger, because no run got that large. Telemetry, update check and non-essential traffic off</td>
+</tr>
+<tr>
 <td>OpenCode</td>
 <td><strong>1.19.5</strong> (<code>opencode-ai</code>, Node 22.23.4)</td>
 <td><code>opencode run --format json -m spark/qwen3.8-flash-nvfp4 "&lt;prompt&gt;"</code></td>
@@ -132,5 +143,5 @@
 <li><strong>Isolated network.</strong> The container's only neighbour is a gateway container with two parts: a <strong>recording proxy</strong> to the model server (it records every request's token counts, cache hits, timings and tool calls) and a <strong>web proxy</strong> (internet allowed; private network addresses refused).</li>
 <li><strong>Scoring is rule-based, with no AI judge:</strong> file contents, PDF form fields and pixels, hidden unit tests, browser tests and fact checks. Each check is a percentage per category; the score is the average, so 100% means fully correct. Each check is tested against known-correct and known-wrong answers before it is used.</li>
 <li><strong>Efficiency</strong> comes from the recording proxy. <em>Real tokens</em> = the new text the model had to read plus everything it wrote (see the top of this page); time, turns and tool calls are counted per run.</li>
-<li><strong>Runs that had to be redone.</strong> 35 runs were set aside and run again because something went wrong with the run itself, not with the model's work: 5 Hermes runs where a model reply never arrived and Hermes was stopped, 2 Hermes runs and 1 DeepSeek run that never started, 23 OpenCode runs where my first setup blocked access to files outside the task folder, and 4 Hermes runs that finished with trouble. The Data page lists them and the runs that hit the 45-minute limit.</li>
-</ul></main><footer>Report built 11 November 2026 from the recorded runs. <a href="#top">Back to top</a></footer></body></html>
+<li><strong>Runs that had to be redone.</strong> 44 runs were set aside and run again because something went wrong with the run itself, not with the model's work: 5 Hermes runs where a model reply never arrived and Hermes was stopped, 2 Hermes runs and 1 DeepSeek run that never started, 23 OpenCode runs where my first setup blocked access to files outside the task folder, 4 Hermes runs that finished with trouble, and 9 runs (5 OpenCode, 2 DeepSeek, 1 Hermes, 1 Claude Code) during which the laptop running the tests went to sleep, which paused the test containers and inflated their times; the scores were the same in 7 of the 9. The Data page lists them and the runs that hit the 45-minute limit.</li>
+</ul></main><footer>Report built 12 November 2026 from the recorded runs. <a href="#top">Back to top</a></footer></body></html>

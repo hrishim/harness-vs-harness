@@ -2,7 +2,7 @@
 
 <p>This report compares five agent harnesses on EveryDay Bench, a set of 15 everyday tasks, with the same model, Qwen3.8-Flash-Next, behind all of them. A harness is the program that gives a model its tools, such as a shell and a file editor, and keeps calling the model until the task is done. The harnesses we considered are Claude Code, DeepSeek Harness, Hermes, OpenCode and Pi. Each harness ran each task three times (three rounds) at each of two reasoning effort settings, medium and xhigh, which makes 90 runs per harness and 450 in all. A run passes when its score is 100%, meaning every check on its result is right.</p>
 <p>Figure 1 shows how the parts fit together. In this study the prompt is the plain request as a person would write it, with no added instructions or examples, although each harness adds its own built-in instructions. The tools are those each harness comes with. The model is the same in every run. No memory is used, and every run starts with only the task's input files.</p>
-<figure class="diagram"><svg viewBox="0 0 760 350" role="img" aria-label="Diagram: the prompt goes to the harness; the harness exchanges messages with the LLM and runs tools; memory is not used" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+<figure class="diagram"><svg viewBox="0 0 760 365" role="img" aria-label="Diagram: the prompt goes to the harness; the harness exchanges messages with the LLM and runs tools; memory is shown dashed because it is not used" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
 <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#444"/></marker>
 <marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#aaa"/></marker></defs>
 <rect x="20" y="130" width="170" height="90" rx="8" fill="#fff" stroke="#444" stroke-width="1.6"/>
@@ -21,14 +21,14 @@
 <text x="660" y="187" text-anchor="middle" font-size="14" fill="#333">Qwen3.8-Flash-Next</text>
 <text x="660" y="206" text-anchor="middle" font-size="14" fill="#333">same in every run</text>
 <line x1="502" y1="175" x2="578" y2="175" stroke="#444" stroke-width="1.8" marker-start="url(#ah)" marker-end="url(#ah)"/>
-<rect x="270" y="285" width="230" height="55" rx="8" fill="#fff" stroke="#444" stroke-width="1.6"/>
-<text x="385" y="309" text-anchor="middle" font-size="17" font-weight="700" fill="#1d1d1f">Tools</text>
-<text x="385" y="329" text-anchor="middle" font-size="13" fill="#333">each harness's own, such as a shell and a file editor</text>
+<rect x="270" y="285" width="230" height="72" rx="8" fill="#fff" stroke="#444" stroke-width="1.6"/>
+<text x="385" y="310" text-anchor="middle" font-size="17" font-weight="700" fill="#1d1d1f">Tools</text>
+<text x="385" y="331" text-anchor="middle" font-size="13" fill="#333">each harness's own, such as</text>
+<text x="385" y="348" text-anchor="middle" font-size="13" fill="#333">a shell and a file editor</text>
 <line x1="385" y1="257" x2="385" y2="283" stroke="#444" stroke-width="1.8" marker-start="url(#ah)" marker-end="url(#ah)"/>
-<rect x="270" y="10" width="230" height="55" rx="8" fill="#f6f6f4" stroke="#aaa" stroke-width="1.6" stroke-dasharray="6 4"/>
-<text x="385" y="34" text-anchor="middle" font-size="17" font-weight="700" fill="#888">Memory</text>
-<text x="385" y="54" text-anchor="middle" font-size="14" fill="#888">not used</text>
-<line x1="385" y1="67" x2="385" y2="93" stroke="#aaa" stroke-width="1.8" stroke-dasharray="5 4" marker-start="url(#ahg)" marker-end="url(#ahg)"/>
+<rect x="270" y="10" width="230" height="48" rx="8" fill="#f6f6f4" stroke="#aaa" stroke-width="1.6" stroke-dasharray="6 4"/>
+<text x="385" y="40" text-anchor="middle" font-size="17" font-weight="700" fill="#888">Memory</text>
+<line x1="385" y1="60" x2="385" y2="93" stroke="#aaa" stroke-width="1.8" stroke-dasharray="5 4" marker-start="url(#ahg)" marker-end="url(#ahg)"/>
 </svg><figcaption><b>Figure 1.</b> The parts of an agent system and what each one is in this study. Solid boxes are used and the dashed box is not.</figcaption></figure>
 
 <h2 id="method">Method</h2>

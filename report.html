@@ -86,7 +86,7 @@
 <p>Figure 5 shows that every harness used more real tokens at xhigh than at medium. Over all harnesses, xhigh used 1.39 times the real tokens and 1.68 times the time. It passed 189 of 225 runs against 186 for medium. The extra cost did not buy a clearly better result.</p>
 <figure><img src="assets/report-fig4-effort-cost.svg" alt="Real tokens per run at medium and xhigh for each harness"><figcaption><b>Figure 5.</b> Mean real tokens per run at medium and at xhigh.</figcaption></figure>
 
-<h2 id="limits">Limits</h2>
+<h2 id="scope">Scope of the Results</h2>
 <p><b>Model and hardware.</b> All runs used one model, Qwen3.8-Flash-Next in NVIDIA's NVFP4 build, on one DGX Spark. Another model, or the same model on other hardware, may give different results. In particular, a stronger model might pass tasks that this one fails, and the harnesses might then differ more.</p>
 <p><b>Size.</b> There are 15 tests, 3 rounds and 45 runs for each harness at each effort. A single harness moves by up to 4 passes between rounds of the same tests, so differences of a few passes between harnesses, or between efforts, should not be read as real. This report makes no claim about differences that small.</p>
 <p><b>Short tasks.</b> The median largest context was 37K tokens, and 6 of 450 runs went above 144,179 tokens. These results say little about long tasks, or about whether a harness's context compaction works. The compaction setting of Claude Code, which we set to act at 55% of the window, was never reached: its largest context was 98K tokens.</p>

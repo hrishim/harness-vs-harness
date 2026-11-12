@@ -70,3 +70,5 @@ details > summary { cursor:pointer; padding:4px 0; }
 .report figcaption { color:var(--muted); font-size:14px; margin-top:4px; }
 .report .cap { color:var(--muted); font-size:14px; margin:1.2em 0 .2em; }
 .report table { width:auto; min-width:60%; }
+
+.report figure.diagram svg { width:100%; height:auto; display:block; background:#fff; border:1px solid var(--line); border-radius:10px; }

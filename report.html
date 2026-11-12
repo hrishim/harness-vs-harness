@@ -82,8 +82,8 @@
 <p class="cap"><b>Table 6.</b> Scores of the 75 runs that did not pass.</p>
 <table><thead><tr><th>Score of the run</th><th>Runs that did not pass</th></tr></thead><tbody><tr><td>90 to 99%</td><td>51</td></tr><tr><td>70 to 89%</td><td>16</td></tr><tr><td>40 to 69%</td><td>4</td></tr><tr><td>below 40%</td><td>4</td></tr></tbody></table>
 
-<h3 id="f7">7. Cost differs between harnesses, and xhigh raises it by different amounts</h3>
-<p>At medium, a run used 86K real tokens on average with Pi and 119K with DeepSeek Harness, which is 1.4 times as much, and the mean time per run ranged from 4.3 to 8.0 minutes. At xhigh the mean ranged from 127K to 177K real tokens. Over all harnesses, xhigh used 1.39 times the real tokens of medium and 1.68 times the time. Figure 5 shows the change for each harness. The ratio of xhigh to medium was 1.11 for Hermes, 1.23 for OpenCode, 1.23 for DeepSeek Harness, 1.48 for Claude Code and 2.05 for Pi. Pi used the fewest tokens at medium and the most at xhigh. The medians give the same two results, so a few long runs do not explain them.</p>
+<h3 id="f7">7. xhigh cost more and did not give clearly better results</h3>
+<p>At medium, a run used 86K real tokens on average with Pi and 119K with DeepSeek Harness, and took 4.3 to 8.0 minutes on average. At xhigh the mean ranged from 127K to 177K real tokens. Over all harnesses, xhigh used 1.39 times the real tokens of medium and 1.68 times the time (Figure 5), and it passed 189 of 225 runs against 186 for medium. The extra cost did not buy a clearly better result.</p>
 <figure><img src="assets/report-fig4-effort-cost.svg" alt="Real tokens per run at medium and xhigh for each harness"><figcaption><b>Figure 5.</b> Mean real tokens per run at medium and at xhigh. The number on the right is the ratio.</figcaption></figure>
 
 <h2 id="limits">Limits</h2>

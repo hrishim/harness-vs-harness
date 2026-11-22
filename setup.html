@@ -89,11 +89,16 @@
 <td>Sends <code>output_config.effort: "high"</code>, which the server's configuration replaces with <code>medium</code> for the <code>:claude-medium</code> model name</td>
 <td>The same, replaced with <code>xhigh</code> for the <code>:claude-xhigh</code> model name</td>
 </tr>
+<tr>
+<td>Kite</td>
+<td>Sends <code>reasoning_effort: "medium"</code> (its default)</td>
+<td>Sends <code>xhigh</code>, set on its command line</td>
+</tr>
 </tbody>
 </table>
 <p>Different effort levels make the model think very differently, so the results are split by level and each page compares harnesses only at one level.</p>
 <h3>Harnesses</h3>
-<p>All five were installed from their public releases into Docker images and run one-shot (a single prompt, no follow-up).</p>
+<p>The first five were installed from their public releases into Docker images; Kite, a harness under development shown under a code name, was built from source into its image. All were run one-shot (a single prompt, no follow-up).</p>
 <table>
 <thead>
 <tr>
@@ -134,6 +139,12 @@
 <td><code>opencode run --format json -m spark/qwen3.8-flash-nvfp4 "&lt;prompt&gt;"</code></td>
 <td>All tool permissions allowed, including files outside the task folder; auto-update and sharing off</td>
 </tr>
+<tr>
+<td>Kite</td>
+<td><strong>0.1.0</strong>, under development (a single binary, no runtime)</td>
+<td><code>kite --prompt "&lt;prompt&gt;" --json --approve-all --allow-all --no-save</code></td>
+<td>Every tool call allowed, including files outside the task folder; seven tools (read, write, edit, bash, grep, find, ls); context window given as 262,144 tokens, compaction at 55% of it (144,179 tokens); stops itself at 44 minutes so it still writes its result; no telemetry or update check</td>
+</tr>
 </tbody>
 </table>
 <h3>Test environment</h3>
@@ -144,4 +155,4 @@
 <li><strong>Scoring is rule-based, with no AI judge:</strong> file contents, PDF form fields and pixels, hidden unit tests, browser tests and fact checks. Each check is a percentage per category; the score is the average, so 100% means fully correct. Each check is tested against known-correct and known-wrong answers before it is used.</li>
 <li><strong>Efficiency</strong> comes from the recording proxy. <em>Real tokens</em> = the new text the model had to read plus everything it wrote (see the top of this page); time, turns and tool calls are counted per run.</li>
 <li><strong>Runs that had to be redone.</strong> 44 runs were set aside and run again because something went wrong with the run itself, not with the model's work: 5 Hermes runs where a model reply never arrived and Hermes was stopped, 2 Hermes runs and 1 DeepSeek run that never started, 23 OpenCode runs where my first setup blocked access to files outside the task folder, 4 Hermes runs that finished with trouble, and 9 runs (5 OpenCode, 2 DeepSeek, 1 Hermes, 1 Claude Code) during which the laptop running the tests went to sleep, which paused the test containers and inflated their times; the scores were the same in 7 of the 9. The Data page lists them and the runs that hit the 45-minute limit.</li>
-</ul></main><footer>Report built 13 November 2026 from the recorded runs. <a href="#top">Back to top</a></footer></body></html>
+</ul></main><footer>Report built 22 November 2026 from the recorded runs. <a href="#top">Back to top</a></footer></body></html>
